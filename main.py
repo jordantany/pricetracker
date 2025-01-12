@@ -6,13 +6,14 @@ from datetime import datetime
 from typing import Dict, Optional
 
 class CryptoPriceTracker:
-    def __init__(self, coins: list = ['bitcoin', 'ethereum', 'solana', 'binancecoin'], alert_threshold_percent: float = 5.0):
+    def __init__(self, coins: list = ['bitcoin', 'ethereum', 'solana', 'binancecoin', 'ripple'], alert_threshold_percent: float = 5.0):
         self.coins = coins
         self.coin_symbols = {
             'bitcoin': 'BTC',
             'ethereum': 'ETH',
             'solana': 'SOL',
-            'binancecoin': 'BNB'
+            'binancecoin': 'BNB',
+            'ripple': 'XRP'
         }
         self.coingecko_api_url = "https://api.coingecko.com/api/v3/simple/price"
         self.alert_threshold = alert_threshold_percent
@@ -133,17 +134,18 @@ class CryptoPriceTracker:
 def main():
     try:
         print("🔧 Crypto Price Tracker Configuration")
-        print("Available cryptocurrencies: BTC (bitcoin), ETH (ethereum), SOL (solana), BNB (binancecoin)")
+        print("Available cryptocurrencies: BTC (bitcoin), ETH (ethereum), SOL (solana), BNB (binancecoin), XRP (ripple)")
         
-        coins_input = input("Enter coins to monitor (default: bitcoin,ethereum,solana,binancecoin): ").strip()
+        coins_input = input("Enter coins to monitor (default: bitcoin,ethereum,solana,binancecoin,ripple): ").strip()
         if not coins_input:
-            coins = ['bitcoin', 'ethereum', 'solana', 'binancecoin']
+            coins = ['bitcoin', 'ethereum', 'solana', 'binancecoin', 'ripple']
         else:
             coin_map = {
                 'btc': 'bitcoin', 'bitcoin': 'bitcoin',
                 'eth': 'ethereum', 'ethereum': 'ethereum',
                 'sol': 'solana', 'solana': 'solana',
-                'bnb': 'binancecoin', 'binancecoin': 'binancecoin'
+                'bnb': 'binancecoin', 'binancecoin': 'binancecoin',
+                'xrp': 'ripple', 'ripple': 'ripple'
             }
             coins = []
             for coin in coins_input.lower().split(','):
@@ -155,7 +157,7 @@ def main():
             
             if not coins:
                 print("❌ No valid coins selected. Using defaults.")
-                coins = ['bitcoin', 'ethereum', 'solana', 'binancecoin']
+                coins = ['bitcoin', 'ethereum', 'solana', 'binancecoin', 'ripple']
         
         threshold = float(input("Enter alert threshold percentage (default 5.0): ") or "5.0")
         interval = int(input("Enter monitoring interval in seconds (default 60): ") or "60")
