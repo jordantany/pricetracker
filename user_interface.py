@@ -1,5 +1,6 @@
-from typing import List, Tuple
+from typing import Tuple
 from config import MainstreamCryptoConfig, SolanaMemeConfig, CoinSymbols
+from btc_db_tracker import BTCDatabaseConfig
 
 class UserInterface:
     @staticmethod
@@ -7,8 +8,9 @@ class UserInterface:
         print("🔧 Crypto Price Tracker Configuration")
         print("1. Monitor mainstream cryptocurrencies (BTC, ETH, SOL, BNB, XRP)")
         print("2. Monitor Solana meme coins by contract address")
+        print("3. Monitor BTC price every minute with database storage")
         
-        mode = input("Select mode (1 or 2, default 1): ").strip() or "1"
+        mode = input("Select mode (1, 2, or 3, default 1): ").strip() or "1"
         return mode
     
     @staticmethod
@@ -71,6 +73,15 @@ class UserInterface:
         )
     
     @staticmethod
+    def setup_btc_database_config() -> BTCDatabaseConfig:
+        print("\n₿ Bitcoin Database Tracker Setup")
+        print("This will monitor BTC price every minute and store data in SQLite database")
+        
+        db_path = input("Enter database file path (default: btc_prices.db): ").strip() or "btc_prices.db"
+        
+        return BTCDatabaseConfig(db_path=db_path)
+    
+    @staticmethod
     def handle_user_input() -> Tuple[str, object]:
         try:
             mode = UserInterface.get_tracker_mode()
@@ -78,6 +89,9 @@ class UserInterface:
             if mode == "2":
                 config = UserInterface.setup_solana_config()
                 return "solana", config
+            elif mode == "3":
+                config = UserInterface.setup_btc_database_config()
+                return "btc_database", config
             else:
                 config = UserInterface.setup_mainstream_config()
                 return "mainstream", config

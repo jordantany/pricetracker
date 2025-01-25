@@ -2,8 +2,9 @@
 
 from mainstream_tracker import MainstreamCryptoTracker
 from solana_tracker import SolanaMemeTracker
+from btc_db_tracker import BTCDatabaseTracker
 from user_interface import UserInterface
-from config import MainstreamCryptoConfig, SolanaMemeConfig
+from config import MainstreamCryptoConfig
 
 def main():
     try:
@@ -11,6 +12,8 @@ def main():
         
         if tracker_type == "solana":
             tracker = SolanaMemeTracker(config)
+        elif tracker_type == "btc_database":
+            tracker = BTCDatabaseTracker(config)
         else:
             tracker = MainstreamCryptoTracker(config)
         
